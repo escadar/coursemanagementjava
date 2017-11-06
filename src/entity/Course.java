@@ -132,8 +132,4 @@ public class Course {
 	}
 
 
-	public void func(){
-		
-		
-	}
 }
