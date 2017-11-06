@@ -1,7 +1,5 @@
 package entity;
 
-JOE WAS HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-ALLLAHU AKHBAR
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
