@@ -1,0 +1,17 @@
+
+ 
+    
+
+<div class="card"  data-ng-repeat="allavilableCourse in AllavilableCourses" >
+
+  <div class="container">
+   <span>  <h2><b>{{allavilableCourse.name}}</b></h2> <button  class="btn btn-default" data-ng-click="register()"
+					class="btn" style="color: blue">Register</button>  </span>
+      <p>By {{allavilableCourse.instructor.firstname}}</p> 
+      <div  class="massageDiv"> </div>
+       <div  class="scheduleDiv"> </div>
+        <div  class="presentationDiv"> </div>
+           
+  </div>
+</div>
+ 

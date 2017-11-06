@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+ 
+<head>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+
+<style type="text/css">
+
+
+body {
+	width: 100%;
+	font-size: 15px;
+}
+
+#logo {
+	style: position: fixed !important;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+.title {
+	text-align: center;
+	font-weight: 200;
+	font-stretch: wider;
+}
+
+.avatar {
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	z-index: -1;
+}
+
+/*  .footer {
+ 
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 1rem;
+  background-color: #efefef;
+  text-align: center;
+}  */
+  .footer {
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	color: grey;
+	text-align: center;
+} 
+
+.forgotpassword {
+	display: none;
+}
+.title {
+    /* font-size: 250%; */
+    text-align: center;
+}
+ 
+</style>
+</head>
+
+<body data-ng-app="myApp">
+
+	<table>
+		<tr>
+      
+          <td><a class="btn btn-deafult logOut" type="button"
+					href="#!LogOut">Log Out</a>
+			<td class="title" colspan="100%"><h1></h1></td>
+			<td><img src="image/atnt.png" alt="Avatar" class="avatar"></td>
+
+		</tr>
+	</table>
+
+
+<div   data-ng-view></div>
+ 
+
+
+	<p class="footer">© 2017 all rights reserved</p>
+
+<script type="text/javascript">
+var app = angular.module("myApp", ["ngRoute"]);
+app.config(function($routeProvider) {
+	$routeProvider.when("/", {
+		templateUrl : "login.html",
+		controller : "loginCtrl"
+
+	})
+	.when("/AllavilableCourses", {
+		templateUrl : "AllavilableCourses.html",
+		controller : "AllavilableCourses"
+
+	})
+	
+	.when("/android ", {
+		templateUrl :  "android.html",
+		 
+
+	})
+	.when("/mysql ", {
+		templateUrl :  "mysql.html",
+		 
+
+	})
+	.when("/c ", {
+		templateUrl :  "c.html",
+		 
+
+	})
+	
+})
+app.controller("loginCtrl", function($scope, $http, $location) {
+	$scope.getuser = function() {
+		$http.get("http://localhost/coursemanagement/rest/user/getUser?username="+$scope.username+"&password="+$scope.password)
+				.then(function(response) {
+					
+					console.log(response.data);
+					  
+				 	  if (response.data.type == "s") {
+				 		  
+					    $location.path("/AllavilableCourses");
+						 
+					 };  
+				});
+		$scope.forgotpassword = function (){
+			 $(".hidebtn").hide();
+			$(".forgotpassword").show();
+		};
+			$scope.send = function (){ 
+			$http.get("http://localhost/projectmanager/rest/user/forgotPassword?username="+$scope.username)
+			 .then(function(response) {
+			 
+				 
+			});
+		};
+		
+	};
+	});
+app.controller("AllavilableCourses", function($scope, $http) {
+		$http.get("http://localhost/coursemanagement/rest/course/getall")
+		.then(function(response) {
+			$scope.AllavilableCourses = response.data;
+			console.log($scope.AllavilableCourses);
+	  
+		});
+	});
+	
+	
+	
+</script>
+</body>
+</html>

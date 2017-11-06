@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html data-ng-app="myApp" lang="en">
+	<head>
+		  <title>Bootstrap Example</title>
+		  <meta charset="utf-8">
+		  <meta name="viewport" content="width=device-width, initial-scale=1">
+		  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		  <link href="course.css" rel="stylesheet">
+		  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+		  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js"></script>
+	</head>
+	<body >
+	<nav class="navbar navbar-inverse">
+	  <div class="container-fluid ">
+	    <div class="navbar-header">
+	      <a class="navbar-brand "  href="#">WebSiteName</a>
+	      <div>
+	        <a href="#" class="glyphicon glyphicon-home"></a>
+	        <a href="#" class="glyphicon glyphicon-download"></a>
+	        <a href="#" class="glyphicon glyphicon-bell"></a>
+	        <a href="#" class="glyphicon glyphicon-envelope"></a>
+	       </div>
+   	 </div>
+	    <ul class="nav navbar-nav pull-right nav navbar-nav ">
+	      <li class="active " ><a href="#">john</a></li>
+	      <li><a href="#">
+	          <span class="glyphicon glyphicon-log-out"></span>
+	        </a></li>
+	    </ul>
+  	</div>
+	</nav>
+	<div class="container-fluid hiddendiv">
+ 	 <div class="row content">
+    <div class="col-sm-3 sidenav">
+      <h4>John's Blog</h4>
+       <div class="input-group">
+        <input type="text" class="form-control" placeholder="Search Blog..">
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="button">
+            <span class="glyphicon glyphicon-search"></span>
+          </button>
+        </span>
+      </div>
+      <div>
+      <ul class="nav nav-pills nav-stacked">
+        <li class="active"><a href="#section1">Home</a></li>
+        <li><a href="#AllavilableCourses">AllavilableCourses</a></li>
+        <li><a href="#section2">Friends</a></li>
+        <li><a href="#section3">Family</a></li>
+        <li><a href="#section3">Photos</a></li>
+        
+      </ul><br>
+    </div>
+    </div>
+  </div>
+</div>
+<div data-ng-view></div>
+ 
+
+   
+
+
+<footer class="container-fluid">
+   Footer Text </footer>
+<script type="text/javascript">
+
+var app = angular.module("myApp", ["ngRoute"]);
+app.config(function($routeProvider) {
+	$routeProvider.when("/", {
+		templateUrl : "login.html",
+		controller : "loginCtrl"
+
+	})
+	.when("/AllavilableCourses", {
+		templateUrl : "AllavilableCourses.html",
+		controller : "AllavilableCourses"
+
+	})
+	
+	.when("/android ", {
+		templateUrl :  "android.html",
+		 
+
+	})
+	.when("/mysql ", {
+		templateUrl :  "mysql.html",
+		 
+
+	})
+	.when("/c ", {
+		templateUrl :  "c.html",
+		 
+
+	})
+	
+})
+app.controller("loginCtrl", function($scope, $http, $location) {
+	$scope.getuser = function() {
+		$http.get("http://localhost/coursemanagement/rest/user/getUser?username="+$scope.username+"&password="+$scope.password)
+				.then(function(response) {
+					
+					console.log(response.data);
+					  
+				 	  if (response.data.type == "s") {
+						 $(".hiddendiv").show();
+						 $(".studentview").show();
+						 $location.path("/AllavilableCourses");
+						 
+					 };  
+				});
+	};
+	});
+app.controller("AllavilableCourses", function($scope, $http) {
+		$http.get("http://localhost/coursemanagement/rest/course/getall")
+		.then(function(response) {
+			$scope.AllavilableCourses = response.data;
+			console.log($scope.AllavilableCourses);
+	
+		});
+		
+		$scope.goToCoursePage = function (id){
+			 
+				    $location.path('/http://localhost/coursemanagement/rest/course/getCoursesById?id="+id');
+				};
+	});
+</script>
+</body>
+</html>

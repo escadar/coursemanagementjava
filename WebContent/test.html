@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+<style>
+body {
+    font-family: "Lato", sans-serif;
+}
+
+.sidenav {
+    height: 100%;
+    width: 200px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    padding-top: 20px;
+}
+
+.sidenav a {
+    padding: 6px 6px 6px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+}
+
+.sidenav a:hover {
+    color: #f1f1f1;
+}
+
+.main {
+    margin-left: 200px; /* Same as the width of the sidenav */
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+ .sidenav{
+display:none;
+}
+.forgotpassword{
+ display:none;
+}
+</style>
+</head>
+<body data-ng-app="myApp">
+
+<div class="sidenav">
+  <a href="#">About</a>
+  <a href="#">Services</a>
+  <a href="#">Clients</a>
+  <a href="#">Contact</a>
+</div>
+
+<div class="main">
+  <div data-ng-view>  </div>
+</div>
+<script>
+  var app = angular.module("myApp", ["ngRoute"]);
+app.config(function($routeProvider) {
+	$routeProvider.when("/", {
+		templateUrl : "login.html",
+		controller : "loginCtrl"
+
+	})
+	.when("/AllavilableCourses", {
+		templateUrl : "AllavilableCourses.html",
+		controller : "AllavilableCourses"
+
+	})
+	
+	.when("/android ", {
+		templateUrl :  "android.html",
+		 
+
+	})
+	.when("/mysql ", {
+		templateUrl :  "mysql.html",
+		 
+
+	})
+	.when("/c ", {
+		templateUrl :  "c.html",
+		 
+
+	})
+	
+})
+app.controller("loginCtrl", function($scope, $http, $location) {
+	$scope.getuser = function() {
+		$http.get("http://localhost/coursemanagement/rest/user/getUser?username="+$scope.username+"&password="+$scope.password)
+				.then(function(response) {
+					
+					console.log(response.data);
+					  
+				 	  if (response.data.type == "s") {
+				 		 $(".sidenav").show();
+					    $location.path("/AllavilableCourses");
+						 
+					 };  
+				});
+		$scope.forgotpassword = function (){
+			 $(".hidebtn").hide();
+			$(".forgotpassword").show();
+			
+		};
+			$scope.send = function (){ 
+			$http.get("http://localhost/projectmanager/rest/user/forgotPassword?username="+$scope.username)
+			 .then(function(response) {
+			 
+				 
+			});
+		};
+		
+	};
+	});
+app.controller("AllavilableCourses", function($scope, $http) {
+		$http.get("http://localhost/coursemanagement/rest/course/getall")
+		.then(function(response) {
+			$scope.AllavilableCourses = response.data;
+			console.log($scope.AllavilableCourses);
+	  
+		});
+	});
+	
+	
+	
+</script>   
+</body>
+</html> 

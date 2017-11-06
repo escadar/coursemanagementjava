@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="windows-1255">
+<title>Insert title here</title>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js"></script>
+</head>
+<body data-ng-app="myApp" data-ng-controller="ctrl">
+<div class="card"  data-ng-repeat="allavilableCourse in AllavilableCourses" >
+
+  <div id=" {{allavilableCourse.id}}" class="container" ng-click="redirect(allavilableCourse.id)">
+   <span>  <b>{{allavilableCourse.name}}</b> <button  class="btn btn-default" data-ng-click="register()" 
+					class="btn" style="color: blue">Register</button>   </span>
+      <p>By {{allavilableCourse.instructor.firstname}}</p> 
+        <p>  {{allavilableCourse.description}}</p> 
+      <div  class="massageDiv"> </div>
+       <div  class="scheduleDiv"> </div>
+        <div  class="presentationDiv"> </div>
+           
+  </div>
+  </div>
+  <script>
+  var app = angular.module("myApp", ["ngRoute"]);
+  app.controller("ctrl", function($scope, $http) {
+		$http.get("http://localhost/coursemanagement/rest/course/getall")
+		.then(function(response) {
+			$scope.AllavilableCourses = response.data;
+			console.log($scope.AllavilableCourses);
+	  
+		});
+  
+  
+  $scope.register = function (){
+	  
+	  
+  };
+  
+  $scope.redirect = function (id){
+	  $http.get("http://localhost/coursemanagement/rest/course/getCoursesById?id"=+id)
+		.then(function(response) {
+			$scope.AllavilableCourses = response.data;
+		});
+  };
+  
+  });
+});
+  </script>
+
+</body>
+</html>
